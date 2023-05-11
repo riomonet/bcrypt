@@ -99,6 +99,8 @@ def delete(username):
     session.pop('username')
     flash ('Sayounara Sucker!','primary')
     user = User.query.get_or_404(username)
+    for proc in user.proclamations:
+        db.session.delete(proc)
     db.session.delete(user)
     db.session.commit()
     return redirect('/')
