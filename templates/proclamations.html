@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+
+{% block content %}
+
+
+<h1 class="display-3">I THE {{u.firstname}} OF {{u.lastname}} DECREE...</h1>
+<form style="display:inline;" action="/users/{{session['username']}}/delete" method="POST">
+    <button class="btn btn-sm btn-danger float-right" type="submit">DELETE {{u.firstname}} FOREVER</button>
+</form>
+<p class ="lead">Deep hidden sparkling thoughts</p>
+
+<form method="POST">
+
+    {{ form.hidden_tag() }}
+
+    {% for field in form
+    if field.widget.input_type != 'hidden' %}
+
+    <p>
+	{{ field.label }}
+	{{ field(class_="form-control") }}
+
+	{% for error in field.errors %}
+	<span class="form-text text-danger">{{error}}</span>
+	{% endfor %}
+	
+    </p>
+
+    {% endfor %}
+    <button class="btn btn-success" type="submit">Winged Words</button>
+
+</form>
+
+<div>
+    {% for proc in all if
+	proc.username == session['username'] %}
+    
+    <div class="card my-4">
+	<div class="card-body">
+    	    <h3 class="card-title text-info">{{proc.title}}</h5>
+	    <h4 class="card-subtitle mb-2 text-muted"></h6>
+		<p class="card-text">{{proc.text}}</p>
+
+
+
+	    <form style="display:inline;" action="/proclamations/{{proc.id}}/update" method="POST">
+		<button class="btn btn-sm btn-success" >edit</button>
+	    </form>
+	    
+	    <form style="display:inline;" action="/proclamations/{{proc.id}}/delete" method="POST">
+		<button class="btn btn-sm btn-danger">delete</button>
+	    </form>
+	</div>
+
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+
