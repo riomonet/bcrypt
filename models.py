@@ -1,4 +1,4 @@
-f"""Models for Login App."""
+"""Models for Login App."""
 
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -9,72 +9,98 @@ bcrypt = Bcrypt()
 def connect_db(app):
         db.init_app(app)
 
-class User(db.Model):
-        """site user"""
+"""Models for Playlist app."""
 
-        __tablename__ = "users"
+from flask_sqlalchemy import SQLAlchemy
 
-        username = db.Column(db.String(20), primary_key=True)
-
-        password = db.Column(db.Text, nullable = False)
+db = SQLAlchemy()
 
 
-        email =   db.Column(db.String(50),
-                            nullable = False,
-                            unique = True)
+class Playlist(db.Model):
+    """Playlist."""
 
-        firstname = db.Column(db.String(30), nullable = False)
-
-        lastname =  db.Column(db.String(30), nullable = False)
-
-        @classmethod            # use class methods when you generate a new instance?
-
-        def register(cls, username, pwd,email,first,last):
-                """Register users with hashed password and retuer user"""
-                hashed = bcrypt.generate_password_hash(pwd)
-                # turn bytestring into normal (unicode utf8) string
-                hashed_utf8 = hashed.decode("utf8")
-
-                return cls(username=username,
-                           password = hashed_utf8,
-                           email = email,
-                           firstname = first,
-                           lastname=last)
+    # ADD THE NECESSARY CODE HERE
 
 
-        @classmethod
-        def authenticate(cls, username, pwd):
-                """validate user exists and password is correct
-                return user if true else false"""
+class Song(db.Model):
+    """Song."""
 
-                u = User.query.filter_by(username=username).first()
+    # ADD THE NECESSARY CODE HERE
 
-                if u and bcrypt.check_password_hash(u.password, pwd):
+class PlaylistSong(db.Model):
+    """Mapping of a playlist to a song."""
 
-                        return u
+    # ADD THE NECESSARY CODE HERE
 
-                else:
-                        return False
 
-        # i = db.relationship('Proclamation',
-        #                                 backref='users',
-        #                                 cascade="all, delete",
-        #                                 passive_deletes=True)
+
+        
+# class User(db.Model):
+#         """site user"""
+
+#         __tablename__ = "users"
+
+#         username = db.Column(db.String(20), primary_key=True)
+
+#         password = db.Column(db.Text, nullable = False)
+
+
+#         email =   db.Column(db.String(50),
+#                             nullable = False,
+#                             unique = True)
+
+#         firstname = db.Column(db.String(30), nullable = False)
+
+#         lastname =  db.Column(db.String(30), nullable = False)
+
+#         @classmethod            # use class methods when you generate a new instance?
+
+#         def register(cls, username, pwd,email,first,last):
+#                 """Register users with hashed password and retuer user"""
+#                 hashed = bcrypt.generate_password_hash(pwd)
+#                 # turn bytestring into normal (unicode utf8) string
+#                 hashed_utf8 = hashed.decode("utf8")
+
+#                 return cls(username=username,
+#                            password = hashed_utf8,
+#                            email = email,
+#                            firstname = first,
+#                            lastname=last)
+
+
+#         @classmethod
+#         def authenticate(cls, username, pwd):
+#                 """validate user exists and password is correct
+#                 return user if true else false"""
+
+#                 u = User.query.filter_by(username=username).first()
+
+#                 if u and bcrypt.check_password_hash(u.password, pwd):
+
+#                         return u
+
+#                 else:
+#                         return False
+
+#         # i = db.relationship('Proclamation',
+#         #                                 backref='users',
+#         #                                 cascade="all, delete",
+#         #                                 passive_deletes=True)
 
 
                 
 
-class Proclamations(db.Model):
-        """shout it out load!"""
+# class Proclamations(db.Model):
+#         """shout it out load!"""
 
-        __tablename__ = "i_declare"
+#         __tablename__ = "i_declare"
 
-        id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#         id = db.Column(db.Integer, primary_key=True, autoincrement=True)
 
-        title = db.Column(db.String(100),nullable = False)
+#         title = db.Column(db.String(100),nullable = False)
 
-        text = db.Column(db.Text, nullable = False)
+#         text = db.Column(db.Text, nullable = False)
 
-        username = db.Column(db.String(20), db.ForeignKey('users.username', ondelete="CASCADE"))
+#         username = db.Column(db.String(20), db.ForeignKey('users.username', ondelete="CASCADE"))
 
-        user = db.relationship('User', backref ='proclamations')
+#         user = db.relationship('User', backref ='proclamations')
